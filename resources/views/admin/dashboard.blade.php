@@ -3,7 +3,15 @@
 @section('title', 'dashboard')
 
 @push('css')
-    
+    <style>
+
+        .ss{
+            width: 50px;
+            height: 1000px;
+            background-color: aqua;
+            padding-left: 100px;
+        }
+    </style>
 @endpush
 
 @section('content')
