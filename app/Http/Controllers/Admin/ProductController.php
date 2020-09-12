@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Product;
+use App\Category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,7 +11,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-
+use PhpOption\Option;
 
 class ProductController extends Controller
 {
@@ -32,7 +33,17 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.add_product');
+        $categories = Category::where('parent_id', 0)->get();
+        $categories_dropdown = "<option value = '' selected disabled>Select </option>";
+        foreach ($categories as $key => $cat) {
+            $categories_dropdown .= "<option value='" . $cat->id . "'>" . $cat->name . "</option>";
+          $sub_categories = Category::where('parent_id', $cat->id)->get();
+
+            foreach ($sub_categories as $key => $sub) {
+                $categories_dropdown .= "<option value='" . $sub->id . "'> &nbsp;--&nbsp" . $sub->name . "</option>";
+            }
+        }
+        return view('admin.products.add_product',compact('categories_dropdown'));
     }
 
     /**
@@ -68,6 +79,7 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->user_id = Auth::id(); //auth::id()= present authinticated id
+        $product->category_id = $request->category_id;
         $product->name   = $request->product_name;
         $product->code   = $request->product_code;
         $product->color   = $request->product_color;
@@ -103,8 +115,31 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('admin.products.edit_product',compact('product'));
-    }
+        $categories = Category::where('parent_id', 0)->get();
+        $categories_dropdown = "<option value='' selected disabled>Select</option>";
+        //Category dropdown code 
+        foreach ($categories as $key => $cat) {
+          if ($cat->id == $product->category_id) {
+              $selected = "selected";
+          }else{
+              $selected = "";
+          }
+          $categories_dropdown .= "<option value='".$cat->id."' ".$selected.">".$cat->name."</option>";
+          $sub_categories = Category::where('parent_id',$cat->id)->get(); 
+       foreach ($sub_categories as $key => $sub) {
+        if ($sub->id == $product->category_id) {
+            $selected = "selected";
+        }else{
+            $selected = "";
+        }
+        $categories_dropdown .= "<option value = '".$sub->id."' ".$selected.">&nbsp;--&nbsp;".$sub->name."</option>";
+       }
+
+        }
+ 
+        return view('admin.products.edit_product',compact('product','categories_dropdown'));
+    
+  }
 
     /**
      * Update the specified resource in storage.
@@ -148,6 +183,7 @@ class ProductController extends Controller
        
         $product->user_id = Auth::id(); //auth::id()= present authinticated id
         $product->name   = $request->product_name;
+        $product->category_id   = $request->category_id;
         $product->code   = $request->product_code;
         $product->color   = $request->product_color;
         $product->description   = $request->product_description;

@@ -46,7 +46,7 @@ class CategoryController extends Controller
           $category = new Category();
           $category->name = $request->category_name;
           $category->parent_id = $request->parent_id;
-          $category->slug = str_slug($request->name);
+          $category->slug = str_slug($request->category_name);
           $category->description = $request->category_description;
           $category->save();
           Toastr::success('Category added successfully','Success');

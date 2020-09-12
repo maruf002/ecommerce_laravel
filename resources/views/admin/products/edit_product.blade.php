@@ -37,6 +37,14 @@
                    <form action="{{route('admin.product.update',$product->id)}}" method="Post" enctype="multipart/form-data">
                      @csrf
                      @method('put')
+                     <div class="form-group">
+                        <label>Under Category</label>
+                        <select name="category_id" id="category_id" class="form-control">
+                            @php
+                            echo $categories_dropdown;
+                            @endphp
+                        </select>
+                    </div>
                       <div class="form-group">
                          <label>Product Name</label>
                       <input type="text" class="form-control" placeholder="Enter Product Name" name="product_name" value="{{$product->name}}"   >
