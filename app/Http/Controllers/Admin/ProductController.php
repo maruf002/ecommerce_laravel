@@ -215,4 +215,13 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->back();
     }
+//$id,$status we can use any variable name because it's auto detect first and second variable respectively
+    public function updateStatus($id,$status){ 
+     $product=Product::find($id);
+     $product->status = $status;
+     $product->save();
+    
+    
+       
+    }
 }
