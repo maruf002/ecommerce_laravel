@@ -29,7 +29,9 @@ Route::group(['as'=>'admin.','prefix'=>'admin','namespace'=>'Admin','middleware'
     Route::get('dashboard','DashboardController@index')->name('dashboard');
     Route::resource('product', 'ProductController');
     Route::resource('category', 'CategoryController');
-    Route::get('product/update-product-status/{i}/{s}','ProductController@updateStatus')->name('updateStatus');
+    Route::get('update-product-status/{i}/{s}','ProductController@updateStatus')->name('updateStatus');
+    Route::get('update-category-status/{id}/{status}','CategoryController@updateStatus')->name('updateStatus');
+    //decclare any instead of id and status argument it willl work
 
 });
 

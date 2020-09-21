@@ -16,7 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $category = Category::latest()->get();
+        return view('admin.category.view_category',compact('category'));
     }
 
     /**
@@ -72,7 +73,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category= Category::find($id);
+        $levels = Category::where('parent_id',0)->get();
+        return view('admin.category.edit_category',compact('category','levels'));
     }
 
     /**
@@ -84,7 +87,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'category_name'=>'required',
+            'parent_id'=>'required',     
+            'category_description'=>'required',     
+          ]);
+          $category = Category::find($id);
+          $category->name = $request->category_name;
+          $category->parent_id = $request->parent_id;
+          $category->slug = str_slug($request->category_name);
+          $category->description = $request->category_description;
+          $category->save();
+          Toastr::success('Category updated successfully','Success');
+          return redirect()->route('admin.category.index');
     }
 
     /**
@@ -95,6 +110,17 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+     return $category = category::find($id);
+      $category->delete();
+      return redirect()->back();
+      toastr::success('category deleted','success');
+    }
+
+    public function updateStatus($id,$status){
+      $category = Category::find($id);
+      $category->status = $status;
+      $category->save();
+      
+        
     }
 }

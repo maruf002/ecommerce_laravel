@@ -87,12 +87,6 @@ class ProductController extends Controller
         $product->price   = $request->product_price;
         $product->image   = $imageName;
 
-        //    if(isset($request->status)){
-        //        $post->status = true;
-        //    }else{
-        //        $post->status = false;
-        //    }
-
         $product->save();
     }
 

@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 
-@section('title', 'dashboard')
+@section('title', 'Categories')
 
     @push('css')
 
@@ -14,8 +14,8 @@
                 <i class="fa fa-product-hunt"></i>
             </div>
             <div class="header-title">
-                <h1>View Products</h1>
-                <small>Products List</small>
+                <h1>View Category</h1>
+                <small>Category List</small>
             </div>
         </section>
         <!-- Main content -->
@@ -29,7 +29,7 @@
                         <div class="panel-heading">
                             <div class="btn-group" id="buttonexport">
                                 <a href="#">
-                                    <h4>View Products</h4>
+                                    <h4>View Category</h4>
                                 </a>
                             </div>
                         </div>
@@ -37,8 +37,8 @@
                             <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
                             <div class="btn-group">
                                 <div class="buttonexport" id="buttonlist">
-                                    <a class="btn btn-add" href="{{ route('admin.product.create') }}"> <i
-                                            class="fa fa-plus"></i> Add Product
+                                    <a class="btn btn-add" href="{{ route('admin.category.create') }}"> <i
+                                            class="fa fa-plus"></i> Add Category
                                     </a>
                                 </div>
 
@@ -48,49 +48,40 @@
                                 <table id="table_id" class="table table-bordered table-striped table-hover">
                                     <thead>
                                         <tr class="info">
-                                            <th>Product ID</th>
-                                            <th>Product Name</th>
-                                            <th>Product code</th>
-                                            <th>Product Color</th>
-                                            <th>Image</th>
-                                            <th>Price</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-
+                                           <th>ID</th>
+                                           <th>Category Name</th>
+                                           <th>Parent ID</th>
+                                           <th>Url</th>
+                                           <th>Status</th>
+                                           <th>Action</th>
                                         </tr>
-                                    </thead>
+                                     </thead>
                                     <tbody>
-                                        @foreach ($products as $key => $pro)
+                                        @foreach ($category as $key => $cat)
                                             <tr>
-                                                <td>{{ $pro->id }}</td>
-                                                <td>{{ $pro->name }}</td>
-                                                <td>{{ $pro->code }}</td>
-                                                <td>{{ $pro->color }}</td>
+                                                <td>{{ $cat->id }}</td>
+                                                <td>{{ $cat->name }}</td>
+                                                <td>{{ $cat->parent_id }}</td>
+                                                <td>{{ $cat->slug }}</td>
                                                 <td>
-                                                    <img src="{{ Storage::disk('public')->url('product/' . $pro->image) }}"
-                                                        alt="" style="width:80px;" >
-                                                       
-                                                </td>
-                                                <td><span>bdt.</span>{{ $pro->price }}</td>
-                                                <td>
-                                                    <input type="checkbox" class=" btn btn-success" id="productstatus"
-                                                        data-id="{{ $pro->id }}" data-toggle="toggle" data-on="Enable"
+                                                    <input type="checkbox" class=" btn btn-success" id="catstatus"
+                                                        data-id="{{ $cat->id }}" data-toggle="toggle" data-on="Enable"
                                                         data-off="Disabled" data-onstyle="success" data-offstyle="danger"
-                                                      {{$pro->status ==1 ?'checked' : ''}}>
+                                                      {{$cat->status ==1 ?'checked' : ''}}>
                                         <div id="myElem" style="display:none;" class="alert alert-success">Status Enabled
                                         </div>
 
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.product.edit', $pro->id) }}" class="btn btn-add btn-sm"
+                                            <a href="{{ route('admin.category.edit', $cat->id) }}" class="btn btn-add btn-sm"
                                                 title="Edit Product"><i class="fa fa-pencil"></i></a>
 
                                             <button class="btn btn-danger waves-effect" type="button"
-                                                onclick="deleteproduct({{ $pro->id }})">
+                                                onclick="deleteCategory({{ $cat->id }})">
                                                 <i class="fa fa-trash-o"></i>
                                             </button>
-                                            <form id="delete-form-{{ $pro->id }}"
-                                                action="{{ route('admin.product.destroy', $pro->id) }}" method="POST"
+                                            <form id="delete-form-{{ $cat->id }}"
+                                                action="{{ route('admin.category.destroy', $cat->id) }}" method="POST"
                                                 style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
@@ -118,7 +109,7 @@
     <script src="https://unpkg.com/sweetalert2@7.19.1/dist/sweetalert2.all.js"></script>
 
     <script type="text/javascript">
-        function deleteproduct(id) {
+        function deleteCategory(id) {
             swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
