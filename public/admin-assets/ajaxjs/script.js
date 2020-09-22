@@ -48,3 +48,29 @@ $(document).ready(function(){
      });
    
    });
+
+   
+//ajax for change productstatus
+$(document).ready(function(){
+   //main code start from 2nd line
+   $('body').on('change','#bannerstatus',function(){
+       var id =$(this).attr('data-id');
+      if(this.checked){
+         var status =1;
+        
+      }else{
+         var status=0;
+      }
+     $.ajax({
+         url: 'update-banner-status/'+id+'/'+status,
+         method:'get',//main part
+         //for showing action in debug console
+         success: function(result){ 
+            console.log(result);
+         }
+      
+     });
+   
+     });
+   
+   });
