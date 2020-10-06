@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 //  Route::get('/', function () {
 //       return view('welcome');
 //  });
- Route::get('/','IndexController@index');
+ Route::get('/','IndexController@index')->name('index');
+ Route::get('categories/{cat_id}','IndexController@categories')->name('catgories');
+ Route::get('products/{id}','ProductsController@productdetails')->name('productdetails');
 
 
     
@@ -30,7 +33,10 @@ Route::group(['as'=>'admin.','prefix'=>'admin','namespace'=>'Admin','middleware'
     Route::resource('product', 'ProductController');
     Route::resource('category', 'CategoryController');
     Route::resource('banner','BannersController');
+
     Route::get('update-product-status/{i}/{s}','ProductController@updateStatus')->name('updateStatus');
+    Route::get('attributes/{id}','ProductController@attributes')->name('attributes');
+    Route::post('add-attributes/{id}','ProductController@addAttributes')->name('addAttributes');
     Route::get('update-category-status/{id}/{status}','CategoryController@updateStatus')->name('updateStatus');
     Route::get('update-banner-status/{i}/{s}','BannersController@updateStatus')->name('updatestatus');
     //decclare any instead of id and status argument it willl work

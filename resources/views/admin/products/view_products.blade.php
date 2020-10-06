@@ -82,6 +82,8 @@
 
                                         </td>
                                         <td>
+                                            <a href="{{ route('admin.attributes', $pro->id) }}" class="btn btn-warning btn-sm"
+                                                title="Add Attributes"><i class="fa fa-list"></i></a>
                                             <a href="{{ route('admin.product.edit', $pro->id) }}" class="btn btn-add btn-sm"
                                                 title="Edit Product"><i class="fa fa-pencil"></i></a>
 

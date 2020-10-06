@@ -39,11 +39,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        
         $this->validate($request,[
             'category_name'=>'required',
             'parent_id'=>'required',     
             'category_description'=>'required',     
           ]);
+       
           $category = new Category();
           $category->name = $request->category_name;
           $category->parent_id = $request->parent_id;

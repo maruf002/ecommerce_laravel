@@ -81,7 +81,8 @@
  <!-- Start Core Plugins
        =====================================================================-->
     <!-- jQuery -->
-    <script src="{{asset('admin-assets/plugins/jQuery/jquery-1.12.4.min.js')}}" type="text/javascript"></script>
+    {{--  <script src="{{asset('admin-assets/plugins/jQuery/jquery-1.12.4.min.js')}}" type="text/javascript"></script>  --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- jquery-ui --> 
     <script src="{{asset('admin-assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js')}}" type="text/javascript"></script>
     <!-- Bootstrap -->
@@ -125,25 +126,7 @@
            });
         </script>
 
-        <script>
-           $('body').on('change','#brandstatus',function(){
-             var id =$(this).attr('data-id');
-            if(this.checked){
-               var status =1;
-            }else{
-               var status=0;
-            }
-           $.ajax({
-               url: 'update-product-status/'+id+'/'+status,
-               method:'get',
-               success: function(result){
-                  console.log(result);
-               }
-
-           });
-
-           });
-        </script>
+   
 
 
 

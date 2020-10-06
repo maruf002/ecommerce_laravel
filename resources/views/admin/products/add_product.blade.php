@@ -47,12 +47,12 @@
                                 <div class="form-group">
                                     <label>Product Name</label>
                                     <input type="text" class="form-control" placeholder="Enter Product Name"
-                                        name="product_name">
+                                        name="name">
                                 </div>
                                 <div class="form-group">
                                     <label>Product Code</label>
                                     <input type="text" class="form-control" placeholder="Enter Product code"
-                                        name="product_code">
+                                        name="code">
                                 </div>
                                 <div class="form-group">
                                     <label>Product Color</label>
