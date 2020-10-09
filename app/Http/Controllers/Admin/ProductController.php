@@ -215,6 +215,7 @@ class ProductController extends Controller
 
 
         $product = Product::where('id', $id)->first();
+       
         return view('admin.products.add_attributes', compact('product'));
     }
 
@@ -256,9 +257,30 @@ class ProductController extends Controller
                     $attribute->stock = $data['stock'][$key];
                     $attribute->save();
                     Toastr::success('Product Attributes added','success');
-                    return redirect()->back();
+                    return redirect()->back(); 
                 }
             }
         }
+    }
+
+    public function editAttributes(Request $request, $id){
+       $data= $request->all();
+      foreach ($data['attr'] as $key => $val) {
+      
+        ProductsAttributes::where(['id'=>$data['attr'][$key]])->update(['sku'=>$data['sku'][$key],
+        'size'=>$data['size'][$key],'price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
+  
+          
+      }
+      Toastr::success('successfully attributes updated','success');
+      return redirect()->back();
+
+
+    }
+
+    public function deleteAttributes($id){
+        ProductsAttributes::find($id)->delete();
+         Toastr::success('successfully attributes deleted','success');
+      return redirect()->back();
     }
 }

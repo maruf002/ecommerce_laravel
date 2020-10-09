@@ -21,7 +21,7 @@
         <!-- Main content -->
         {{-- <div id="message_success" style="display:none;" class="alert alert-sm alert-success">Status Enabled</div>
     <div id="message_error" style="display:none;" class="alert alert-sm alert-danger">Status Disabled</div> --}}
-  
+        {{-- main content --}}
         <section class="content">
             <div class="row">
                 <div class="col-sm-12">
@@ -110,6 +110,7 @@
                     </div>
                 </div>
             </div>
+        </section>
 
     </div>
 @endsection

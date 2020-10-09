@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,9 @@ Route::group(['as'=>'admin.','prefix'=>'admin','namespace'=>'Admin','middleware'
     Route::get('update-product-status/{i}/{s}','ProductController@updateStatus')->name('updateStatus');
     Route::get('attributes/{id}','ProductController@attributes')->name('attributes');
     Route::post('add-attributes/{id}','ProductController@addAttributes')->name('addAttributes');
+    Route::put('edit-attributes/{id}','ProductController@editAttributes')->name('editAttributes');
+    Route::get('delete-attributes/{id}','ProductController@deleteAttributes')->name('deleteAttributes');
+
     Route::get('update-category-status/{id}/{status}','CategoryController@updateStatus')->name('updateStatus');
     Route::get('update-banner-status/{i}/{s}','BannersController@updateStatus')->name('updatestatus');
     //decclare any instead of id and status argument it willl work

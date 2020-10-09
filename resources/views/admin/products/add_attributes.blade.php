@@ -71,6 +71,79 @@
             </div>
         </section>
         <!-- /.content -->
+        {{-- view attributes  --}}
+        <section class="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-bd lobidrag">
+                        <div class="panel-heading">
+                            <div class="btn-group" id="buttonexport">
+                                <a href="#">
+                                    <h4>View Products</h4>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+                            <div class="btn-group">
+                                <div class="buttonexport" id="buttonlist">
+                                    <a class="btn btn-add" href="{{ route('admin.product.create') }}"> <i
+                                            class="fa fa-plus"></i> Add Product
+                                    </a>
+                                </div>
+
+                            </div>
+                            <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+                            <div class="table-responsive">
+                               
+                                <table id="table_id" class="table table-bordered table-striped table-hover">
+                                    <form action="{{ route('admin.editAttributes',$product->id) }}" method="POST">
+                                        @csrf
+                                        @method('put')
+                                    <thead>
+                                        <tr class="info">
+                                            <th>Category ID</th>
+                                            <th>SKU</th>
+                                            <th>Size</th>
+                                            <th>Price</th>
+                                            <th>Stock</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($product->attributes as $key => $pro)
+                                            <tr>
+                                                <td  style="display: none;"><input type="hidden"  name="attr[]" value="{{$pro->id}}">{{$pro->id}}</td>
+                                                <td>{{$pro->id}}</td>
+                                                <td><input type="text" name="sku[]" value="{{$pro->sku}}" style="text-align:center;"> </td>
+                                                <td><input type="text" name="size[]" value="{{$pro->size}}" style="text-align:center;"> </td>
+                                                <td><input type="text" name="price[]" value="{{$pro->price}}" style="text-align:center;"> </td>
+                                                <td><input type="text" name="stock[]" value="{{$pro->stock}}" style="text-align:center;"> </td>
+                                                
+                                               
+                                                
+                                           <td>
+                                               <input type="submit" value="update" class="btn btn-success" style="height:30px;padding-top:4px;">
+                                           
+                                              
+                                       <a href="{{route('admin.deleteAttributes',$pro->id)}}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> </a>
+                                          
+                                        </td>
+
+                                       </tr>
+                                        @endforeach
+                                   
+                                    </tbody>
+                               
+                                </table>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 @endsection
 
