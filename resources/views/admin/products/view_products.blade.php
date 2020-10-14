@@ -19,8 +19,10 @@
             </div>
         </section>
         <!-- Main content -->
-        {{-- <div id="message_success" style="display:none;" class="alert alert-sm alert-success">Status Enabled</div>
-    <div id="message_error" style="display:none;" class="alert alert-sm alert-danger">Status Disabled</div> --}}
+        {{-- <div id="message_success" style="display:none;"
+            class="alert alert-sm alert-success">Status Enabled</div>
+        <div id="message_error" style="display:none;" class="alert alert-sm alert-danger">Status Disabled</div>
+        --}}
         {{-- main content --}}
         <section class="content">
             <div class="row">
@@ -55,6 +57,7 @@
                                             <th>Image</th>
                                             <th>Price</th>
                                             <th>Status</th>
+                                            <th>Feature Products</th>
                                             <th>Action</th>
 
                                         </tr>
@@ -68,39 +71,57 @@
                                                 <td>{{ $pro->color }}</td>
                                                 <td>
                                                     <img src="{{ Storage::disk('public')->url('product/' . $pro->image) }}"
-                                                        alt="" style="width:80px;" >
-                                                       
+                                                        alt="" style="width:80px;">
+
                                                 </td>
                                                 <td><span>bdt.</span>{{ $pro->price }}</td>
                                                 <td>
                                                     <input type="checkbox" class=" btn btn-success" id="productstatus"
                                                         data-id="{{ $pro->id }}" data-toggle="toggle" data-on="Enable"
                                                         data-off="Disabled" data-onstyle="success" data-offstyle="danger"
-                                                      {{$pro->status ==1 ?'checked' : ''}}>
-                                        <div id="myElem" style="display:none;" class="alert alert-success">Status Enabled
-                                        </div>
+                                                        {{ $pro->status == 1 ? 'checked' : '' }}>
+                                                    <div id="myElem" style="display:none;" class="alert alert-success">
+                                                        Status Enabled
+                                                    </div>
 
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.attributes', $pro->id) }}" class="btn btn-warning btn-sm"
-                                                title="Add Attributes"><i class="fa fa-list"></i></a>
-                                            <a href="{{ route('admin.product.edit', $pro->id) }}" class="btn btn-add btn-sm"
-                                                title="Edit Product"><i class="fa fa-pencil"></i></a>
+                                                </td>
 
-                                            <button class="btn btn-danger waves-effect" type="button"
-                                                onclick="deleteproduct({{ $pro->id }})">
-                                                <i class="fa fa-trash-o"></i>
-                                            </button>
-                                            <form id="delete-form-{{ $pro->id }}"
-                                                action="{{ route('admin.product.destroy', $pro->id) }}" method="POST"
-                                                style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                        </td>
+                                                <td>
+                                                    <input type="checkbox" class=" btn btn-success" id="featurestatus"
+                                                        data-id="{{ $pro->id }}" data-toggle="toggle" data-on="Enable"
+                                                        data-off="Disabled" data-onstyle="success" data-offstyle="danger"
+                                                        {{ $pro->featured_products == 1 ? 'checked' : '' }}>
+                                                    <div id="myElem" style="display:none;" class="alert alert-success">
+                                                        Status Enabled
+                                                    </div> 
+
+                                                </td>
+
+                                                <td>
+                                                    <a href="{{ url('admin/alternative-image/' . $pro->id) }}"
+                                                        class="btn btn-info btn-sm" title="Add Images"><i
+                                                            class="fa fa-image"></i></a>
+                                                    <a href="{{ route('admin.attributes', $pro->id) }}"
+                                                        class="btn btn-warning btn-sm" title="Add Attributes"><i
+                                                            class="fa fa-list"></i></a>
+                                                    <a href="{{ route('admin.product.edit', $pro->id) }}"
+                                                        class="btn btn-add btn-sm" title="Edit Product"><i
+                                                            class="fa fa-pencil"></i></a>
+
+                                                    <button class="btn btn-danger waves-effect" type="button"
+                                                        onclick="deleteproduct({{ $pro->id }})">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
+                                                    <form id="delete-form-{{ $pro->id }}"
+                                                        action="{{ route('admin.product.destroy', $pro->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </td>
 
 
-                                        </tr>
+                                            </tr>
                                         @endforeach
 
                                     </tbody>

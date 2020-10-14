@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductsAttributes extends Model
+class AltImages extends Model
 {
-    public function products(){
+    public function product(){
        return $this->belongsTo('App\Product');
     }
 }

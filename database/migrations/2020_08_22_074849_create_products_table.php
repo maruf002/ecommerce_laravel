@@ -24,6 +24,7 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->string('image');
             $table->boolean('status')->default(false);
+            $table->boolean('featured_products')->default(false);
             $table->foreign('user_id')
                   ->references('id')->on('users')
                   ->onDelete('cascade');

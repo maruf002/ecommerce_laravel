@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\AltImages;
 use App\Product;
 use App\Category;
 use Carbon\Carbon;
@@ -55,6 +56,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $this->validate($request, [
             'name' => 'required|unique:products',
             'code' => 'required|unique:products',
@@ -81,14 +84,16 @@ class ProductController extends Controller
         $product = new Product();
         $product->user_id = Auth::id(); //auth::id()= present authinticated id
         $product->category_id = $request->category_id;
-        $product->name   = $request->product_name;
-        $product->code   = $request->product_code;
+        $product->name   = $request->name;
+        $product->code   = $request->code;
         $product->color   = $request->product_color;
         $product->description   = $request->product_description;
         $product->price   = $request->product_price;
         $product->image   = $imageName;
 
         $product->save();
+        Toastr::success('product successfully added', 'success');
+        return redirect()->back();
     }
 
     /**
@@ -145,8 +150,8 @@ class ProductController extends Controller
     {
 
         $this->validate($request, [
-            'product_name' => 'required',
-            'product_code' => 'required',
+            'name' => 'required',
+            'code' => 'required',
             'product_color' => 'required',
             'product_description' => 'required',
             'product_price' => 'required',
@@ -183,7 +188,7 @@ class ProductController extends Controller
         $product->price   = $request->product_price;
         $product->image   = $imageName;
         $product->save();
-        Toastr::success('Product successfully added','success');
+        Toastr::success('Product successfully added', 'success');
         return redirect()->route('admin.product.index');
     }
 
@@ -215,7 +220,7 @@ class ProductController extends Controller
 
 
         $product = Product::where('id', $id)->first();
-       
+
         return view('admin.products.add_attributes', compact('product'));
     }
 
@@ -229,58 +234,107 @@ class ProductController extends Controller
             'stock' => 'required',
 
         ]);
-        if ($request->isMethod('post')) {
-            $data = $request->all();
-            foreach ($data['sku'] as $key => $val) {
-                if (!empty($val)) {
-                    //Prevent duplicate SKU Record
-                   $attrCountSKU = ProductsAttributes::where('sku', $val)->count();
-                    if ($attrCountSKU > 0) {
-                      
-                         Toastr::warning('SKU is already exist please select another sku', 'warning');
-                         return redirect()->back();
-                    }
-                    //Prevent duplicate Size Record
-              
-               $attrCountSizes= ProductsAttributes::where(['product_id'=>$id ,'size'=> $data['size'][$key]])->count();
-     
-                    if ($attrCountSizes > 0) {
-                        Toastr::warning('Size is already exist please select another size', 'warning');
-                        return redirect()->back();
-                    }
+        $data = $request->all();
+        foreach ($data['sku'] as $key => $val) {
+            if (!empty($val)) {
+                //Prevent duplicate SKU Record
+                $attrCountSKU = ProductsAttributes::where('sku', $val)->count();
+                if ($attrCountSKU > 0) {
 
-                    $attribute = new ProductsAttributes;
-                    $attribute->product_id = $id;
-                    $attribute->sku = $val;
-                    $attribute->size = $data['size'][$key];
-                    $attribute->price = $data['price'][$key];
-                    $attribute->stock = $data['stock'][$key];
-                    $attribute->save();
-                    Toastr::success('Product Attributes added','success');
-                    return redirect()->back(); 
+                    Toastr::warning('SKU is already exist please select another sku', 'warning');
+                    return redirect()->back();
                 }
+                //Prevent duplicate Size Record
+
+                $attrCountSizes = ProductsAttributes::where(['product_id' => $id, 'size' => $data['size'][$key]])->count();
+
+                if ($attrCountSizes > 0) {
+                    Toastr::warning('Size is already exist please select another size', 'warning');
+                    return redirect()->back();
+                }
+
+                $attribute = new ProductsAttributes;
+                $attribute->product_id = $id;
+                $attribute->sku = $val;
+                $attribute->size = $data['size'][$key];
+                $attribute->price = $data['price'][$key];
+                $attribute->stock = $data['stock'][$key];
+                $attribute->save();
             }
         }
+
+        Toastr::success('Product Attributes added', 'success'); //keep in mind message and redturn back after foreach for multiple array save in database
+        return redirect()->back();
     }
 
-    public function editAttributes(Request $request, $id){
-       $data= $request->all();
-      foreach ($data['attr'] as $key => $val) {
-      
-        ProductsAttributes::where(['id'=>$data['attr'][$key]])->update(['sku'=>$data['sku'][$key],
-        'size'=>$data['size'][$key],'price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
-  
-          
-      }
-      Toastr::success('successfully attributes updated','success');
-      return redirect()->back();
 
 
+    public function editAttributes(Request $request, $id)
+    {
+        $data = $request->all();
+        foreach ($data['attr'] as $key => $val) {
+
+            ProductsAttributes::where(['id' => $data['attr'][$key]])->update([
+                'sku' => $data['sku'][$key],
+                'size' => $data['size'][$key], 'price' => $data['price'][$key], 'stock' => $data['stock'][$key]
+            ]);
+        }
+        Toastr::success('successfully attributes updated', 'success');
+        return redirect()->back();
     }
 
-    public function deleteAttributes($id){
+    public function deleteAttributes($id)
+    {
         ProductsAttributes::find($id)->delete();
-         Toastr::success('successfully attributes deleted','success');
-      return redirect()->back();
+        Toastr::success('successfully attributes deleted', 'success');
+        return redirect()->back();
+    }
+
+    public function alterImg($id)
+    {
+        $altimage = AltImages::latest()->get();
+        $product = Product::where('id', $id)->first();
+        return view('admin.products.add_alterimage', compact('product', 'altimage'));
+    }
+    public function addAltimg(Request $request, $id)
+    {
+        $this->validate($request, [
+            'image' => 'required',
+        ]);
+        $image = $request->file('image');
+        if (isset($image)) {
+            $currentDate = carbon::now()->toDateString();
+            $imageName = rand(111, 99999) . '-' . $currentDate . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+            if (!storage::disk('public')->exists('alterimage')) {
+                storage::disk('public')->makeDirectory('alterimage');
+            }
+            $img = Image::make($image)->stream();
+            storage::disk('public')->put('alterimage/' . $imageName, $img);
+        }
+        $alterimg = new AltImages();
+        $alterimg->product_id = $id;
+        $alterimg->image = $imageName;
+        $alterimg->save();
+        Toastr::success('successfully images uploaded', 'success');
+        return redirect()->back();
+    }
+    public function deletealtimg($id)
+    {
+        $alt = AltImages::find($id);
+        if (Storage::disk('public')->exists('alterimage/' . $alt->image)) {
+            storage::disk('public')->delete('alterimage/' . $alt->image);
+        }
+
+        $alt->delete();
+        Toastr::success('Successfully deleted', 'success');
+        return redirect()->back();
+    }
+
+    public function featureStatus($id, $status)
+    {
+
+        $product = Product::find($id);
+        $product->featured_products = $status;
+        $product->save();
     }
 }

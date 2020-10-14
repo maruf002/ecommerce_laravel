@@ -9,7 +9,8 @@ class ProductsController extends Controller
 {
      public function productdetails($id){
         $productDetails=Product::where('id',$id)->first();
-        return view('wayshop.product_details',compact('productDetails'));
+        $featureProducts=Product::where('featured_products',1)->get();
+        return view('wayshop.product_details',compact('productDetails','featureProducts'));
       
     }
 }

@@ -47,11 +47,11 @@
                     </div>
                       <div class="form-group">
                          <label>Product Name</label>
-                      <input type="text" class="form-control" placeholder="Enter Product Name" name="product_name" value="{{$product->name}}"   >
+                      <input type="text" class="form-control" placeholder="Enter Product Name" name="name" value="{{$product->name}}"   >
                       </div>
                       <div class="form-group">
                          <label>Product Code</label>
-                         <input type="text" class="form-control" placeholder="Enter Product code" name="product_code" value="{{$product->code}}"  >
+                         <input type="text" class="form-control" placeholder="Enter Product code" name="code" value="{{$product->code}}"  >
                       </div>
                       <div class="form-group">
                          <label>Product Color</label>

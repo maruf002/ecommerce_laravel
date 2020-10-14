@@ -12,5 +12,9 @@ class Product extends Model
     public function attributes(){
         return $this->hasMany('App\ProductsAttributes');
      }
-    
+     public function altimages(){
+      return $this->hasMany('App\Altimages');
+   }
+
+  
 }
