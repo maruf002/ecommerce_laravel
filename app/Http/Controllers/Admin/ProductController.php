@@ -308,7 +308,7 @@ class ProductController extends Controller
             if (!storage::disk('public')->exists('alterimage')) {
                 storage::disk('public')->makeDirectory('alterimage');
             }
-            $img = Image::make($image)->stream();
+            $img = Image::make($image)->resize(500,500)->stream();
             storage::disk('public')->put('alterimage/' . $imageName, $img);
         }
         $alterimg = new AltImages();

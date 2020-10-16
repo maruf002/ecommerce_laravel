@@ -12,14 +12,14 @@ class IndexController extends Controller
    public function index(){
       $banners = Banner::Status()->get();
       $categories= Category::where('parent_id',0)->get();
-      $products = Product::latest()->get();
        return view('wayshop.index',compact('banners','categories','products'));
    }
 
-   public function categories(){
+   public function categories($id){
       $categories= Category::where('parent_id',0)->get();
-     
-       return view('wayshop.index',compact('banners','categories'));
+      $products = Product::where('category_id',$id)->get();
+      $category_name=Category::where('id',$id)->first();
+       return view('wayshop.category_products',compact('categories','products','category_name'));
    }
 
   
