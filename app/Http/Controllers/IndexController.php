@@ -11,6 +11,7 @@ class IndexController extends Controller
 {
    public function index(){
       $banners = Banner::Status()->get();
+      $products = Product::latest()->get();
       $categories= Category::where('parent_id',0)->get();
        return view('wayshop.index',compact('banners','categories','products'));
    }

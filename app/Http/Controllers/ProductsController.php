@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\ProductsAttributes;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -13,4 +14,17 @@ class ProductsController extends Controller
         return view('wayshop.product_details',compact('productDetails','featureProducts'));
       
     }
+    public function getprice(Request $request ){
+      
+      $data = $request->all();
+        //  echo "<pre>";print_r($data);die;
+       $proArr = explode("-",$data['idSize']);
+       
+        $proAttr = ProductsAttributes::where(['id'=>$proArr[0],'size'=>$proArr[1]])->first();
+      
+        echo $proAttr->price;
+
+    }
+
+    
 }

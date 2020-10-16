@@ -53,7 +53,7 @@
                 <div class="col-xl-7 col-lg-7 col-md-6">
                     <div class="single-product-details">
                         <h2>{{ $productDetails->name }}</h2>
-                        <h5> <small>TK.</small> {{ $productDetails->price }} </h5>
+                        <h5 id="getPrice"> <small>TK.</small> {{ $productDetails->price }} </h5>
                       
                                 <h4>Short Description:</h4>
                                 <p>{{ $productDetails->description }} </p>
@@ -61,10 +61,10 @@
                                     <li>
                                         <div class="form-group size-st">
                                             <label class="size-label">Size</label>
-                                            <select id="basic" class="selectpicker show-tick form-control">
+                                            <select id="selSize" class="selectpicker show-tick form-control">
                                     <option value="0">Size</option>
                                     @foreach ($productDetails->attributes as $attr )
-                                        <option value="{{ $attr->id }}">{{ $attr->size }}</option>
+                                        <option value="{{ $attr->id }}-{{$attr->size }}">{{ $attr->size }}</option>
                                     @endforeach
 									
 								</select>
@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="why-text">
                                     <h4>{{ $feat->name }}</h4>
-                                    <h5> {{ $feat->price }}</h5>
+                                    <h5 id="price"> {{ $feat->price }}</h5>
                                 </div>
                             </div>
                           

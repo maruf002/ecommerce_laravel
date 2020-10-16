@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
  Route::get('/','IndexController@index')->name('index');
  Route::get('categories/{cat_id}','IndexController@categories')->name('categories.product');
  Route::get('products/{id}','ProductsController@productdetails')->name('productdetails');
+ Route::get('/get-product-price','ProductsController@getprice')->name('getprice');
+ 
 
 
     

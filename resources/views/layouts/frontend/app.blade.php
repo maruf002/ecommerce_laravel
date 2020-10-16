@@ -61,5 +61,35 @@
     <script src="{{asset('front_assets/js/form-validator.min.js')}}"></script>
     <script src="{{asset('front_assets/js/contact-form-script.js')}}"></script>
     <script src="{{asset('front_assets/js/custom.js')}}"></script>
+
+    //get product price with ajax call
+    <script>
+      $(document).ready(function(){
+        $("#selSize").change(function(){
+        //   alert("test");
+        var idSize = $(this).val();
+        if(idSize ==""){
+            return false;
+        }
+        $.ajax({
+            type:'get',
+            url:'/get-product-price', //wihtout / url get error, / is must for this
+            data:{idSize:idSize},
+            success:function(resp){
+                // alert(resp);
+                var arr = resp.split('#');
+                $("#getPrice").html("bdt."+arr[0] );
+                 $('#price').val(arr[0]);
+            },error:function(){
+                alert("Error");
+
+            }
+
+        });
+
+         });
+
+       });
+    </script>
 </body>
 </html>
