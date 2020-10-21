@@ -15,6 +15,8 @@ class Product extends Model
      public function altimages(){
       return $this->hasMany('App\Altimages');
    }
-
+  public function carts(){
+   return $this->belongsToMany('App\Cart');
+  }
   
 }

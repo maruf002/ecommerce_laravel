@@ -51,7 +51,14 @@
                     </div>
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
+                    <form  name="add cart" action="{{ route('addtoCart') }}" method="post">
+                        @csrf
                     <div class="single-product-details">
+                        <input type="hidden" value="{{ $productDetails->id }}" name="product_id">
+                        <input type="hidden" value="{{ $productDetails->name }}" name="product_name">
+                        <input type="hidden" value="{{ $productDetails->code }}" name="product_code">
+                        <input type="hidden" value="{{ $productDetails->color }}" name="product_color">
+                        <input type="hidden" id="price" value="{{ $productDetails->price }}" name="price">
                         <h2>{{ $productDetails->name }}</h2>
                         <h5 id="getPrice"> <small>TK.</small> {{ $productDetails->price }} </h5>
                       
@@ -61,7 +68,7 @@
                                     <li>
                                         <div class="form-group size-st">
                                             <label class="size-label">Size</label>
-                                            <select id="selSize" class="selectpicker show-tick form-control">
+                                            <select id="selSize" name="size"  class="selectpicker show-tick form-control">
                                     <option value="0">Size</option>
                                     @foreach ($productDetails->attributes as $attr )
                                         <option value="{{ $attr->id }}-{{$attr->size }}">{{ $attr->size }}</option>
@@ -73,15 +80,16 @@
                                     <li>
                                         <div class="form-group quantity-box">
                                             <label class="control-label">Quantity</label>
-                                            <input class="form-control" value="0" min="0" max="20" type="number">
+                                            <input class="form-control" name="quantity" value="0" min="0" max="20" type="number">
                                         </div>
                                     </li>
                                 </ul>
 
                                 <div class="price-box-bar">
                                     <div class="cart-and-bay-btn">
+                                        <button class="btn hvr-hover" data-fancybox-close="" type="submit" style="color:white;">Add to cart</button>
                                     
-                                        <a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>
+                                    
                                     </div>
                                 </div>
 
@@ -99,6 +107,7 @@
                                     </div>
                                 </div>
                     </div>
+                </form>
                 </div>
             </div>
 

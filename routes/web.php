@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
  Route::get('categories/{cat_id}','IndexController@categories')->name('categories.product');
  Route::get('products/{id}','ProductsController@productdetails')->name('productdetails');
  Route::get('/get-product-price','ProductsController@getprice')->name('getprice');
+
  
 
 
@@ -29,6 +30,16 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
+
+ //Route for add to cart
+Route::group(['middleware' => ['auth']], function () {
+    Route::post('add-cart','ProductsController@addtoCart')->name('addtoCart');
+    Route::get('cart','ProductsController@cart')->name('cart');
+    Route::get('delete-cart/{id}','ProductsController@deleteCart')->name('deleteCart');
+    Route::get('updateCart/{id}/{q}','ProductsController@updateCart')->name('updateCart');
+    
+});
+
 
 // Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['as'=>'admin.','prefix'=>'admin','namespace'=>'Admin','middleware'=>['auth','admin']],function(){
