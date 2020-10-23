@@ -125,9 +125,8 @@
              $('#table_id').DataTable();
            });
         </script>
-
-   
-
+        
+ 
 
 
      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -146,6 +145,20 @@
 
         @endif
     </script>  
+
+{{--               
+    for a unknown reason   with this link the datepicker is not working ,, maybe script exist in theme     --}}
+{{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}} 
+
+<script>
+$( function() {
+  $( "#datepicker" ).datepicker({
+   minDate:0, //for hide previous days from today
+   dateFormat:'yy-mm-dd',
+  });
+} );
+</script>
+
     {{-- ajax js code link --}}
 <script src="{{asset('admin-assets/ajaxjs/script.js')}}" type="text/javascript"></script>
 

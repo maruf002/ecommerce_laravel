@@ -75,6 +75,37 @@ $(document).ready(function(){
    });
 
 
+   //ajax for change coupon status
+
+$(document).ready(function(){
+   //main code start from 2nd line
+   $('body').on('change','#couponStatus',function(){
+       var id =$(this).attr('data-id');
+      if(this.checked){
+         var status =1;
+        
+      }else{
+         var status=0;
+      }
+     $.ajax({
+         url: 'update-coupon-status/'+id+'/'+status,
+         method:'get',//main part
+         //for showing action in debug console
+         success: function(result){ 
+            console.log(result);
+            $("#message_success").show();
+            setTimeout(function() { $("#message_success").fadeOut('slow'); }, 2000);
+         },error:function(){
+            alert("Error");
+         }
+      
+     });
+   
+     });
+   
+   });
+
+
    //ajax for change featured products status
 
 $(document).ready(function(){
