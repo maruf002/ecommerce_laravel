@@ -39,6 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $total_amount = 0; ?>
                          @foreach($userCart as $key => $cart)
                              
                         
@@ -76,28 +77,37 @@
                                 </td>
                                 <td class="remove-pr">
                                     <a href="{{ route('deleteCart',$cart->id) }}">
-                                <i class="fas fa-times"></i>
-                            </a>
+                                      <i class="fas fa-times"></i>
+                                   </a>
                                 </td>
                             </tr>
+                            <?php  $total_amount= $total_amount+($cart->price*$cart->quantity); ?>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
+      
         <div class="row my-5">
+            <form action="{{ route('applyCoupon') }}" method="POST">
+                @csrf
             <div class="col-lg-6 col-sm-6">
+               
                 <div class="coupon-box">
+                    <form  action="route('applyCoupon')" method="POST">
+                        @csrf
                     <div class="input-group input-group-sm">
-                        <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
+                        <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" name="coupon_code" type="text">
                         <div class="input-group-append">
-                            <button class="btn btn-theme" type="button">Apply Coupon</button>
+                            <button class="btn btn-theme" type="submit">Apply Coupon</button>
                         </div>
                     </div>
+                </form>
                 </div>
+            
             </div>
+      
             <div class="col-lg-6 col-sm-6">
                 <div class="update-box">
                     <input value="Update Cart" type="submit">
@@ -110,32 +120,28 @@
             <div class="col-lg-4 col-sm-12">
                 <div class="order-box">
                     <h3>Order summary</h3>
+                    @if(!empty(Session::get('CouponAmount')))
                     <div class="d-flex">
                         <h4>Sub Total</h4>
-                        <div class="ml-auto font-weight-bold"> $ 130 </div>
+                        <div class="ml-auto font-weight-bold">BDT.<?php echo $total_amount; ?></div>
                     </div>
                     <div class="d-flex">
-                        <h4>Discount</h4>
-                        <div class="ml-auto font-weight-bold"> $ 40 </div>
+                        <h4>Coupon Discount</h4>
+                        <div class="ml-auto font-weight-bold">BDT. <?php echo session::get('CouponAmount');?> </div>
                     </div>
                     <hr class="my-1">
                     <div class="d-flex">
-                        <h4>Coupon Discount</h4>
-                        <div class="ml-auto font-weight-bold"> $ 10 </div>
+                        <h4>Grand Total</h4>
+                        <div class="ml-auto font-weight-bold">BDT. <?php echo $total_amount - session::get('CouponAmount');?> </div>
                     </div>
-                    <div class="d-flex">
-                        <h4>Tax</h4>
-                        <div class="ml-auto font-weight-bold"> $ 2 </div>
-                    </div>
-                    <div class="d-flex">
-                        <h4>Shipping Cost</h4>
-                        <div class="ml-auto font-weight-bold"> Free </div>
-                    </div>
+                   
                     <hr>
+                    @else
                     <div class="d-flex gr-total">
                         <h5>Grand Total</h5>
-                        <div class="ml-auto h5"> $ 388 </div>
+                        <div class="ml-auto h5"> BDT.<?php echo $total_amount; ?></div>
                     </div>
+                     @endif 
                     <hr> </div>
             </div>
             <div class="col-12 d-flex shopping-box"><a href="checkout.html" class="ml-auto btn hvr-hover">Checkout</a> </div>

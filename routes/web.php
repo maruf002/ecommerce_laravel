@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('cart','ProductsController@cart')->name('cart');
     Route::get('delete-cart/{id}','ProductsController@deleteCart')->name('deleteCart');
     Route::get('updateCart/{id}/{q}','ProductsController@updateCart')->name('updateCart');
+    Route::Post('apply-coupon','ProductsController@applyCoupon')->name('applyCoupon');
     
 });
 
