@@ -49,7 +49,24 @@
                     <ul>
                         
                         <li><a href="#"> <i class="fa fa-cart-plus"></i> Cart</a></li>
-                        <li><a href="#"><i class="fa fa-user"></i> Login</a></li>
+                        @if(empty(Auth::check()))
+                        <li><a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a></li>
+                        @else
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">
+                            <i class="fa fa-user"></i>
+                            <span>Sign out</span>
+                            </a>
+            
+                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                             @csrf
+                         </form>
+
+                        </li>
+                        @endif
+                        
                     </ul>
                 </div>
             </div>

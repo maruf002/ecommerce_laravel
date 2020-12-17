@@ -66,17 +66,20 @@
 
                                 </td>
                                 <td class="quantity-box">
-                                    <a href="{{url('updateCart/'.$cart->id.'/1')}}" style="font-size:25px;"><strong>+</strong></a>
+                                  
+                                    
+                                    <a href="{{url('user/updateCart/'.$cart->id.'/1')}}" style="font-size:25px;"><strong>+</strong></a>
                                     <input type="number" size="4" value="{{ $cart->quantity }}" min="0" step="1" class="c-input-text qty text">
                                     @if($cart->quantity>0)
-                                    <a href="{{ url('updateCart/'.$cart->id.'/-1') }}" style="font-size:25px;"><strong>-</strong></a>
+                                    <a href="{{ url('user/updateCart/'.$cart->id.'/-1') }}" style="font-size:25px;"><strong>-</strong></a> 
+                                    
                                     @endif
                                 </td>
                                 <td class="total-pr">
                                   <p>Bdt. {{ $cart->price*$cart->quantity }}</p>
                                 </td>
                                 <td class="remove-pr">
-                                    <a href="{{ route('deleteCart',$cart->id) }}">
+                                    <a href="{{ route('user.deleteCart',$cart->id) }}">
                                       <i class="fas fa-times"></i>
                                    </a>
                                 </td>
@@ -90,12 +93,12 @@
         </div>
       
         <div class="row my-5">
-            <form action="{{ route('applyCoupon') }}" method="POST">
+            <form action="{{ route('user.applyCoupon') }}" method="POST">
                 @csrf
             <div class="col-lg-6 col-sm-6">
                
                 <div class="coupon-box">
-                    <form  action="route('applyCoupon')" method="POST">
+                    <form  action="route('user.applyCoupon')" method="POST">
                         @csrf
                     <div class="input-group input-group-sm">
                         <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" name="coupon_code" type="text">
@@ -144,7 +147,7 @@
                      @endif 
                     <hr> </div>
             </div>
-            <div class="col-12 d-flex shopping-box"><a href="checkout.html" class="ml-auto btn hvr-hover">Checkout</a> </div>
+            <div class="col-12 d-flex shopping-box"><a href="{{ route('user.checkout') }}" class="ml-auto btn hvr-hover">Checkout</a> </div>
         </div>
 
     </div>

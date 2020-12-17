@@ -9,9 +9,10 @@ use App\ProductsAttributes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 
- use Session;
+ 
 
 class ProductsController extends Controller
 {
@@ -44,7 +45,7 @@ class ProductsController extends Controller
        'price'=>$request->price,'size'=>$sizeArr[1],'session_id'=>Auth::id()])->count();
        if($countProduct>0){
        
-        return redirect()->route('cart')->with('flash_message_error','Product already exists in cart');
+        return redirect()->route('user.cart')->with('flash_message_error','Product already exists in cart');
        }else{
       $cart= new Cart();
       $cart->product_name=$request->product_name;
@@ -58,7 +59,7 @@ class ProductsController extends Controller
       $cart->user_email=Auth::user()->email;
       $cart->save();
      } 
-      return redirect()->route('cart')->with('flash_message_success','Product added successfully');
+      return redirect()->route('user.cart')->with('flash_message_success','Product added successfully');
 
     }
 
@@ -81,7 +82,7 @@ class ProductsController extends Controller
 
        Cart::find($id)->delete();
    
-       return redirect()->route('cart')->with('flash_message_success','Product has been deleted!');
+       return redirect()->route('user.cart')->with('flash_message_success','Product has been deleted!');
      
     }
 
@@ -90,7 +91,7 @@ class ProductsController extends Controller
       Session::forget('CouponCode');
     $cart= Cart::where('id',$id)->increment('quantity',$quantity);
    
-    return redirect()->route('cart')->with('flash_message_success','Product Quantity has been updated Successfully');
+    return redirect()->route('user.cart')->with('flash_message_success','Product Quantity has been updated Successfully');
    }
 
    public function applyCoupon(Request $request){
@@ -140,5 +141,7 @@ class ProductsController extends Controller
      }
    }
 
-    
+    public function checkout(){
+      return view('wayshop.products.checkout');
+    }
 }

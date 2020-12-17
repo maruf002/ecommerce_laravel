@@ -36,8 +36,11 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        if(Auth:: check() && Auth::User()->id ==1){
+        if(Auth:: check() && Auth::User()->admin==1){
             $this->redirectTo = route('admin.dashboard');
+        }else{
+            $this->redirectTo = route('user.cart'); 
+
         }
         $this->middleware('guest')->except('logout');
     }

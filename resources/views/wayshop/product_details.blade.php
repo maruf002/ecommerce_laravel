@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col-xl-7 col-lg-7 col-md-6">
-                    <form  name="add cart" action="{{ route('addtoCart') }}" method="post">
+                    <form  name="add cart" action="{{ route('user.addtoCart') }}" method="post">
                         @csrf
                     <div class="single-product-details">
                         <input type="hidden" value="{{ $productDetails->id }}" name="product_id">

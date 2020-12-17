@@ -35,6 +35,8 @@
    <!-- Custom CSS -->
    <link rel="stylesheet" href="{{asset('front_assets/css/custom.css')}}">
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     @stack('css')
 </head>
 <body>
@@ -62,7 +64,24 @@
     <script src="{{asset('front_assets/js/contact-form-script.js')}}"></script>
     <script src="{{asset('front_assets/js/custom.js')}}"></script>
 
-    //get product price with ajax call
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {!! Toastr::message() !!}
+
+    <script>
+        @if($errors->any())
+        @foreach($errors->all() as $error)
+          toastr.error('{{ $error }}', 'Error',{
+              closeButton:true,
+              progressBar:true,
+
+          });
+
+        @endforeach
+
+        @endif
+    </script>  
+
+    {{--  get product price with ajax call  --}}
     <script>
       $(document).ready(function(){
         $("#selSize").change(function(){
