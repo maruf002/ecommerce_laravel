@@ -6,24 +6,12 @@
     <div class="container">
         <div class="my-account-page">
             <div class="row">
-                <div class="col-lg-4 col-md-12">
+           
+                <div class="col-lg-4 offset-lg-2 col-md-12">
                     <div class="account-box">
                         <div class="service-box">
                             <div class="service-icon">
-                                <a href="#"> <i class="fa fa-gift"></i> </a>
-                            </div>
-                            <div class="service-desc">
-                                <h4>Your Orders</h4>
-                                <p>Track, return, or buy things again</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-12">
-                    <div class="account-box">
-                        <div class="service-box">
-                            <div class="service-icon">
-                                <a href="#"><i class="fa fa-lock"></i> </a>
+                                <a href="{{route('changepassword')}}"><i class="fa fa-lock"></i> </a>
                             </div>
                             <div class="service-desc">
                                 <h4>Login &amp; security</h4>
@@ -36,7 +24,7 @@
                     <div class="account-box">
                         <div class="service-box">
                             <div class="service-icon">
-                                <a href="#"> <i class="fa fa-location-arrow"></i> </a>
+                                <a href="{{ route('changeAddress') }}"> <i class="fa fa-location-arrow"></i> </a>
                             </div>
                             <div class="service-desc">
                                 <h4>Your Addresses</h4>

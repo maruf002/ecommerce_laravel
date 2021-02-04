@@ -17,7 +17,7 @@ class Usermiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->id == 2){
+        if(Auth::check() && Auth::user()->admin == 0){
             return $next($request);
         }else{
             return redirect()->route('login');

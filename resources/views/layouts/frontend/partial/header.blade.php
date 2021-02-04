@@ -52,6 +52,7 @@
                         @if(empty(Auth::check()))
                         <li><a href="{{ route('login') }}"><i class="fa fa-user"></i> Login</a></li>
                         @else
+                        <li><a href="{{ route('account') }}"><i class="fa fa-address-book"></i> Account</a></li>
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();

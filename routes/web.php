@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     // using get and post together
     Route::match(['get', 'post'], '/account', 'usersController@account')->name('account');
     Route::match(['get', 'post'], '/changepassword', 'usersController@changepassword')->name('changepassword');
+    Route::match(['get', 'post'], '/changeAddress', 'usersController@changeAddress')->name('changeAddress');
 });
 
 
@@ -78,5 +79,7 @@ Route::group(['as' => 'user.', 'prefix' => 'user',  'middleware' => ['auth', 'us
     Route::get('delete-cart/{id}', 'ProductsController@deleteCart')->name('deleteCart');
     Route::get('updateCart/{id}/{q}', 'ProductsController@updateCart')->name('updateCart');
     Route::Post('apply-coupon', 'ProductsController@applyCoupon')->name('applyCoupon');
-    Route::get('checkout', 'ProductsController@checkout')->name('checkout');
+    Route::match(['get', 'post'], '/checkout', 'ProductsController@checkout')->name('checkout');
+    
+ 
 });
