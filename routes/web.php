@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/login-register','UsersController@userLoginRegister');
+Route::post('/user-register','UsersController@register');
+Route::post('/user-login','UsersController@login');
+//Confirm Email
+Route::get('/confirm/{code}','UsersController@confirmAccount');
 
 //  Route::get('/', function () {
 //       return view('welcome');
@@ -25,11 +30,15 @@ Route::get('/get-product-price', 'ProductsController@getprice')->name('getprice'
 
 
 
+Route::post('add-cart', 'ProductsController@addtoCart')->name('user.addtoCart');
+Route::match(['get','post'],'cart', 'ProductsController@cart')->name('user.cart');
+Route::get('delete-cart/{id}', 'ProductsController@deleteCart')->name('user.deleteCart');
+Route::get('user/updateCart/{id}/{q}', 'ProductsController@updateCart')->name('user.updateCart');
+Route::Post('apply-coupon', 'ProductsController@applyCoupon')->name('user.applyCoupon');
 
 
 
-
-Auth::routes();
+Auth::routes(['verify'=>true]);  //'verify' for notification message to mailttrap
 
 //Route for add to cart
 Route::group(['middleware' => ['auth']], function () {
@@ -73,12 +82,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mi
     Route::get('delete-coupon/{id}', 'CouponsController@deleteCoupon')->name('deleteCoupon');
 });
 
-Route::group(['as' => 'user.', 'prefix' => 'user',  'middleware' => ['auth', 'user']], function () {
-    Route::post('add-cart', 'ProductsController@addtoCart')->name('addtoCart');
-    Route::get('cart', 'ProductsController@cart')->name('cart');
-    Route::get('delete-cart/{id}', 'ProductsController@deleteCart')->name('deleteCart');
-    Route::get('updateCart/{id}/{q}', 'ProductsController@updateCart')->name('updateCart');
-    Route::Post('apply-coupon', 'ProductsController@applyCoupon')->name('applyCoupon');
+Route::group(['as' => 'user.', 'prefix' => 'user',  'middleware' => ['frontlogin']], function () {
+
     Route::match(['get', 'post'], '/checkout', 'ProductsController@checkout')->name('checkout');
     
  

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
-use App\Country;
 use App\Coupon;
-use App\DeliveryAddress;
+use App\Country;
 use App\Product;
+use App\DeliveryAddress;
 use App\ProductsAttributes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
@@ -37,20 +38,37 @@ class ProductsController extends Controller
 
   public function addtoCart(Request $request)
   {
+
+ 
     Session::forget('couponAmount');
     Session::forget('couponCode');
+    $data = $request->all();
+    if(empty(Auth::user()->email)){
+      $data['user_email'] = '';
+    }else{
+      $data['user_email'] = Auth::user()->email;
+    }
 
-
-    $sizeArr = explode('-', $request->size);
+  $session_id = Session::get('session_id');
+    if(empty($session_id)){
+      $session_id = str_random(40);
+    Session::put('session_id',$session_id);
+    }
+ 
+     $sizeArr = explode('-',$data['size']);
+    
     //Prevent duplicate Size Record
-    $countProduct = cart::where([
-      'product_id' => $request->product_id, 'product_color' => $request->product_color,
-      'price' => $request->price, 'size' => $sizeArr[1], 'session_id' => Auth::id()
+     $countProduct = cart::where([
+      'product_id' =>$data['product_id'], 'product_color' =>$data['product_color'],
+      'price' => $data['price'], 'size' => $sizeArr[1],'session_id'=>$session_id
     ])->count();
-    if ($countProduct > 0) {
 
+    if ($countProduct > 0) {
+    
       return redirect()->route('user.cart')->with('flash_message_error', 'Product already exists in cart');
+     
     } else {
+     
       $cart = new Cart();
       $cart->product_name = $request->product_name;
       $cart->product_id = $request->product_id;
@@ -59,22 +77,32 @@ class ProductsController extends Controller
       $cart->price = $request->price;
       $cart->size = $sizeArr[1];
       $cart->quantity = $request->quantity;
-      $cart->session_id = Auth::id();
-      $cart->user_email = Auth::user()->email;
+      $cart->session_id =$session_id;
+      $cart->user_email =  $data['user_email'];
       $cart->save();
     }
     return redirect()->route('user.cart')->with('flash_message_success', 'Product added successfully');
   }
 
-  public function cart()
+  public function cart(Request $request)
   {
 
-    $session_id = Auth::id();
-    $userCart = Cart::where('session_id', $session_id)->get();
+ 
+    if (Auth::check()) {
+      $user_email = Auth::user()->email;
+      $userCart = Cart::where(['user_email' => $user_email])->get();
+    }else{
+      $session_id = Session::get('session_id');
+        $userCart = Cart::where(['session_id'=>$session_id])->get();
+  }
+    // // $session_id = Auth::id();
+    // $userCart = Cart::where('session_id', $session_id)->get();
 
     foreach ($userCart as $key => $pro) {
+    
       $productDetails = Product::where(['id' => $pro->product_id])->first();
       $userCart[$key]->img = $productDetails->image;
+    
     }
 
     return view('wayshop.products.cart', compact('userCart'));
@@ -92,6 +120,7 @@ class ProductsController extends Controller
 
   public function updateCart($id, $quantity)
   {
+   
     Session::forget('CouponAmount');
     Session::forget('CouponCode');
     $cart = Cart::where('id', $id)->increment('quantity', $quantity);

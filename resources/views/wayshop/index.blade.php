@@ -10,7 +10,9 @@
         <ul class="slides-container">
             @foreach($banners as $key => $ban)
             <li class="{{ $ban->text_style }}">
-                <img src="{{Storage::disk('public')->url('banner/'.$ban->image)}}" alt="">
+                {{-- <img src="{{asset('images/products/'.$cart->product->images->first()->image)}}" width="70px"> --}}
+                {{-- <img src="{{Storage::disk('public')->url('banner/'.$ban->image)}}" alt=""> --}}
+                {{-- <img src="{{asset('storage/banner/'.$ban->image)}}" alt="hh"> --}}
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -191,6 +193,7 @@
                                                     <div class="type-lb">
                                                         <p class="sale">Sale</p>
                                                     </div>
+                                                    {{-- <img src="{{asset('public/storage/product'.$pro->image)}}" width="70px"> --}}
                                                     <img src="{{ Storage::disk('public')->url('product/'.$pro->image) }}" class="img-fluid" alt="Image">
                                                     <div class="mask-icon">
                                                         <ul>
