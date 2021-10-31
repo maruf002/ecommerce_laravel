@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login-register','UsersController@userLoginRegister');
 Route::post('/user-register','UsersController@register');
 Route::post('/user-login','UsersController@login');
+//Route for add users registration
+Route::get('/user-logout','UsersController@logout');
+//ADMIN LOGIN REG
+Route::match(['get','post'],'/','AdminController@login')->name('admin.login');
 //Confirm Email
 Route::get('/confirm/{code}','UsersController@confirmAccount');
 
@@ -52,7 +56,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 // Route::get('/home', 'HomeController@index')->name('home');
-Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['AdminLogin']], function () {
+    
+
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('product', 'ProductController');
     Route::resource('category', 'CategoryController');
@@ -85,6 +91,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mi
 Route::group(['as' => 'user.', 'prefix' => 'user',  'middleware' => ['frontlogin']], function () {
 
     Route::match(['get', 'post'], '/checkout', 'ProductsController@checkout')->name('checkout');
+    Route::match(['get','post'],'/order-review','ProductsController@orderReview');
     
  
 });

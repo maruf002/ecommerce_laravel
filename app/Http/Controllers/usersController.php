@@ -82,6 +82,12 @@ class usersController extends Controller
          }
         }
     }
+
+    public function logout(){
+        Session::forget('frontSession');
+        Auth::logout();
+        return redirect('/');
+    }
     public function confirmAccount($email)
     {
         $email = base64_decode($email);
@@ -106,6 +112,8 @@ class usersController extends Controller
     }
 
 }
+
+
 
     public function account()
     {

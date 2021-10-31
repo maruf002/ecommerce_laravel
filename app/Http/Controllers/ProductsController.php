@@ -237,10 +237,22 @@ class ProductsController extends Controller
         $shipping->mobile = $data['shipping_mobile'];
         $shipping->save();
       }
+      return redirect()->action('ProductsController@orderReview');
     }
-
-
-
     return view('wayshop.products.checkout', compact('userDetails', 'country'));
   }
+
+  public function orderReview(){
+    $user_id = Auth::user()->id;
+    $user_email = Auth::user()->email;
+    $shippingDetails = DeliveryAddress::where('user_id',$user_id)->first();
+    $userDetails = User::find($user_id);
+    $userCart = DB::table('carts')->where(['user_email'=>$user_email])->get();
+    foreach($userCart as $key=>$product){
+        $productDetails = Product::where('id',$product->product_id)->first();
+        $userCart[$key]->image = $productDetails->image;
+    }
+    return view('wayshop.products.order_review')->with(compact('userDetails','shippingDetails','userCart'));
+}
+
 }
